@@ -1,3 +1,3 @@
-# Just Another Test Generator
+# Test Generator Util
 
-Just Another Test Generator CLI. A python cli tool to quickly generate tests.
+A python cli tool to quickly generate tests.

@@ -1,6 +1,7 @@
 import os
 import shutil
 import subprocess
+import pathlib
 
 def compile(path, name):
     os.system("g++ -g -pipe -O2 -s -static -lm -DTHEMIS -Wl,--stack,66060288 " + path + " -o " + name + ".exe")
@@ -28,13 +29,20 @@ def createTestSet(prob, test):
     
 def moveToTestSet(prob, test, name):
     shutil.copyfile(name, prob + "/Test" + str(test) + "/" + name)
+    
+def getNameFromPath(path):
+    path = pathlib.Path(path).name.split('.')
+    path.pop()
+    path = "".join(path)
+    return path
 
-numTest = 2
+numTest = 5
 problemName = "test"
-solutionName = "solution"
 solutionPath = "solution.cpp"
-generatorName = "generator"
+solutionName = getNameFromPath(solutionPath)
 generatorPath = "generator.cpp"
+generatorName = getNameFromPath(generatorPath)
+
 defaultInput = "input.txt"
 defaultOutput = "output.txt"
 
@@ -42,7 +50,7 @@ compile(generatorPath, generatorName)
 compile(solutionPath, solutionName)
 createRoot(problemName)
 
-for i in range(numTest):
+for i in range(1, numTest + 1):
     createTestSet(problemName, i)
     run(generatorName, "", defaultInput)
     run(solutionName, defaultInput, defaultOutput)
